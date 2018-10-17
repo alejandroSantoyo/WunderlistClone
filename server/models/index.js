@@ -35,6 +35,17 @@ db.Sequelize = Sequelize;
 
 sequelize.sync();
 
+// db.Task.findById(1)
+// .then( task => {
+//     task.update({ finish_date: new Date(),
+//         title: "Test",
+//         status: false,
+//         dead_line: new Date(), listId: 1 })
+// })
+
+
+
+
 const sequelizeStream = require('sequelize-stream');
 const stream = sequelizeStream(sequelize);
 stream.on('data', ({ instance, event }) => {

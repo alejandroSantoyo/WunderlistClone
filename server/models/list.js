@@ -12,7 +12,11 @@ module.exports = (sequelize, DataTypes) => {
         },
     });
     List.associate = (models) => {
-        List.belongsToMany(models.User, { through: models.UserLists })
+        List.belongsToMany(models.User, { through: models.UserLists });
+        List.hasMany(models.Task, {
+            foreignKey: 'listId',
+            as: 'tasks'
+        })
     };
     return List;
 };
