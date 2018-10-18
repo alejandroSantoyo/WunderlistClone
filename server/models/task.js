@@ -16,11 +16,12 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
         }
     });
-    Task.associate = function (models) {
+    Task.associate = (models) => {
         Task.belongsTo(models.List, {
             foreignKey: 'listId',
             onDelete: 'CASCADE'
-        })
+        });
+        Task.belongsToMany(models.User, { through: models.UserTasks, as: 'users' })
     };
     return Task;
 };

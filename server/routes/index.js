@@ -1,4 +1,4 @@
-const { users, lists } = require('../controllers');
+const { users, lists, tasks } = require('../controllers');
 
 module.exports = (app) => {
     app.get('/api/v1', (req, res) => res.status(200).send({ message: 'Welcome to the Todos API!' }));
@@ -15,4 +15,7 @@ module.exports = (app) => {
     app.put("/api/v1/lists/:listId", users.loginRequired, lists.update)
     app.put("/api/v1/lists/:id/status", lists.changeStatus)
     app.post('/api/v1/list/:listId/user/:userId', lists.addUserToList)
+
+    // tasks
+    app.get("/api/v1/lists/:id/tasks", users.loginRequired, tasks.list)
 }
