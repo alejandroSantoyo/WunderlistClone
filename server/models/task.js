@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         status: {
             type: DataTypes.BOOLEAN,
+            defaultValue: false,
             allowNull: false,
         },
         dead_line: {

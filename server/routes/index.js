@@ -18,4 +18,7 @@ module.exports = (app) => {
 
     // tasks
     app.get("/api/v1/lists/:id/tasks", users.loginRequired, tasks.list)
+    app.post('/api/v1/lists/:id/tasks', users.loginRequired, tasks.create)
+    app.put('/api/v1/tasks/:id', users.loginRequired, tasks.update)
+    app.put('/api/v1/tasks/:id/assign-user', users.loginRequired, tasks.assignUser)
 }
