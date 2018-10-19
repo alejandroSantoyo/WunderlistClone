@@ -12,6 +12,9 @@ const validate = (schema, object) => {
     return { valid, reason }
 }
 
+const ip = "192.168.1.14"
+
 module.exports = {
-    validate
+    validate,
+    ip
 }

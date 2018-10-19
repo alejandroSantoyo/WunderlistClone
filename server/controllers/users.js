@@ -1,5 +1,6 @@
 const { User, List, Sequelize } = require('../models');
-const { validate } = require('../../utils/Constants');
+const { validate, ip } = require('../../utils/Constants');
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -112,6 +113,17 @@ const update = async (req, res) => {
     }
 }
 
+const uploadAvatar = async (req, res) => {
+    try {
+        let user = await User.findById(req.user.id);
+        fs.writeFileSync(`./public/users-avatars/${req.user.id}.jpg`, req.file.buffer )
+        user = await user.update({ avatar: `/users-avatars/${req.user.id}.jpg` })
+        res.send(user)
+    } catch (error) {
+        res.send({ error: error.message })
+    }
+}
+
 module.exports = {
     create,
     list,
@@ -119,5 +131,6 @@ module.exports = {
     login,
     loginRequired,
     profile,
-    update
+    update,
+    uploadAvatar,
 }

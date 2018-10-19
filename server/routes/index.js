@@ -1,4 +1,6 @@
 const { users, lists, tasks } = require('../controllers');
+const multer  = require('multer')
+const upload = multer()
 
 module.exports = (app) => {
     app.get('/api/v1', (req, res) => res.status(200).send({ message: 'Welcome to the Todos API!' }));
@@ -9,6 +11,7 @@ module.exports = (app) => {
     app.get('/api/v1/users', users.loginRequired, users.list)
     app.get('/api/v1/profile', users.loginRequired, users.profile)
     app.put('/api/v1/profile/', users.loginRequired, users.update)
+    app.put('/api/v1/profile/avatar', users.loginRequired, upload.single('avatar'), users.uploadAvatar)
 
     // lists
     app.get('/api/v1/my-lists', users.loginRequired, lists.myLists)
