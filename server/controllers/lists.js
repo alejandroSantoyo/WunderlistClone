@@ -106,11 +106,23 @@ const addUserToList = async (req, res) => {
     }
 }
 
+const destroy = async (req, res) => {
+    try {
+        const list = await List.findById(req.params.id);
+        if (!list) throw new Error("List not found")
+        await list.destroy();
+        res.send({ message: "List deleted", status: "ok" })
+    } catch (error) {
+        res.status(400).send({ error: error.message })
+    }
+}
+
 module.exports = {
     list,
     create,
     myLists,
     addUserToList,
     update,
-    changeStatus
+    changeStatus,
+    destroy
 }

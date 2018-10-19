@@ -13,8 +13,9 @@ module.exports = (app) => {
     app.get('/api/v1/my-lists', users.loginRequired, lists.myLists)
     app.post('/api/v1/lists', users.loginRequired, lists.create)
     app.put("/api/v1/lists/:listId", users.loginRequired, lists.update)
-    app.put("/api/v1/lists/:id/status", lists.changeStatus)
-    app.post('/api/v1/list/:listId/user/:userId', lists.addUserToList)
+    app.put("/api/v1/lists/:id/status", users.loginRequired, lists.changeStatus)
+    app.post('/api/v1/list/:listId/user/:userId', users.login, lists.addUserToList)
+    app.delete('/api/v1/lists/:id', users.loginRequired, lists.destroy)
 
     // tasks
     app.get("/api/v1/lists/:id/tasks", users.loginRequired, tasks.list)
