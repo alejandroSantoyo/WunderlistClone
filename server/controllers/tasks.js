@@ -1,4 +1,4 @@
-const { Task, User, List } = require('../models');
+const { Task, User, List, UserTasks } = require('../models');
 const { validate } = require('../../utils/Constants');
 
 const list = async (req, res) => {
@@ -63,9 +63,15 @@ const assignUser = async (req, res) => {
 
 const removeUser = async (req,res) => {
     try {
-        
+        const { valid, reason } = validate({ user: Object }, req.body);
+        if (!valid) throw new Error(reason)
+        const userTask = await UserTasks.find({ where: { TaskId: req.params.id, UserId: req.body.user.id } })
+        if (!userTask) throw new Error("User not found")
+        await userTask.destroy();
+        res.send({ status: "ok", message: "User removed" })
     } catch (error) {
-        
+        // if (error.message == "Cannot read property '_modelOptions' of undefined") res.status(200).send({ status: "ok", message: "User removed" })
+        res.status(400).send({ error: error.message })
     }
 }
 
@@ -74,4 +80,5 @@ module.exports = {
     create,
     update,
     assignUser,
+    removeUser
 }
