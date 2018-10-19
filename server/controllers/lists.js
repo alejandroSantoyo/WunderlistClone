@@ -20,7 +20,8 @@ const update = async (req, res) => {
         if (!valid) throw new Error(reason)
         const list = await List.findById(req.params.listId);
         if (!list) throw new Error("The list doesn't exist");
-        list.update({ name: req.body.name });
+        await list.update({ name: req.body.name });
+        res.send({ status: "ok", message: "List updated" })
     } catch (error) {
         res.status(400).send({ error: error.message })
     }

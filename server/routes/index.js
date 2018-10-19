@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.post('/api/v1/users', users.create)
     app.get('/api/v1/users', users.loginRequired, users.list)
     app.get('/api/v1/profile', users.loginRequired, users.profile)
+    app.put('/api/v1/profile/', users.loginRequired, users.update)
 
     // lists
     app.get('/api/v1/my-lists', users.loginRequired, lists.myLists)

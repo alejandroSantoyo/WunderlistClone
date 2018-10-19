@@ -1,5 +1,14 @@
 const jwt = require('jsonwebtoken');
 
+const verifyAsync = function(token, secretOrPublicKey) {
+    return new Promise( (resolve, reject) => {
+        jwt.verify(token, secretOrPublicKey, (err, decode) => {
+            if (err) reject(err);
+            resolve(decode);
+        })
+    });
+}
+
 jwt.verifyAsync = function(token, secretOrPublicKey) {
     return new Promise( (resolve, reject) => {
         jwt.verify(token, secretOrPublicKey, (err, decode) => {
@@ -24,5 +33,6 @@ const checkJWTAuth = async (req, res, next) => {
 }
 
 module.exports = {
-    checkJWTAuth
+    checkJWTAuth,
+    verifyAsync
 }

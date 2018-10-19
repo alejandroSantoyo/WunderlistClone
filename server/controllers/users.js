@@ -94,11 +94,30 @@ const profile = async (req, res) => {
     }
 }
 
+const update = async (req, res) => {
+    try {
+        const { valid, reason } = validate({ name: String, email: String, type: String }, req.body);
+        if (!valid) throw new Error(reason)
+        let user = await User.findById(req.user.id);
+        if (req.body.type == "name"){
+            user = await user.update({ name: req.body.name });
+        } else {
+            const match = await bcrypt.compare(req.body.password, user.password);
+            if (!match) throw new Error("Password don't match")
+            user = await user.update({ email: req.body.email })
+        }
+        res.send(user)
+    } catch (error) {
+        res.status(400).send({ status: "error", error: error.message });
+    }
+}
+
 module.exports = {
     create,
     list,
     getUser,
     login,
     loginRequired,
-    profile
+    profile,
+    update
 }
