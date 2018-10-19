@@ -75,10 +75,22 @@ const removeUser = async (req,res) => {
     }
 }
 
+const destroy = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) throw new Error("Task not found")
+        await task.destroy();
+        res.send({ message: "Task deleted", status: "ok" })
+    } catch (error) {
+        res.status(400).send({ error: error.message })
+    }
+}
+
 module.exports = {
     list,
     create,
     update,
     assignUser,
-    removeUser
+    removeUser,
+    destroy
 }
